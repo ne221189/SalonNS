@@ -1,0 +1,16 @@
+<%= image_tag "logo.PNG", size: "180x48", alt: "Salon NS" %>
+<% if current_user %>
+  <ul class="account-menu">
+    <%= menu_link_to current_user.name + "さん", :account %>
+    <%= menu_link_to "ログアウト", :session,
+                     method: :delete, data: { confirm: "ログアウトしますか?" } %>
+  </ul>
+<% end %>
+
+<%=
+  if controller.kind_of?(Admin::Base)
+      render "shared/admin_menubar"
+  else
+      render "shared/menubar"
+  end
+%>

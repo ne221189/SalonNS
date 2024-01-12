@@ -1,0 +1,33 @@
+<% @page_title = "予約情報" %>
+<h1><%= @page_title %></h1>
+<% if @reservations.present? %>
+  <table class="list">
+    <thead>
+    <tr>
+      <th>利用者様</th>
+      <th>予約日時</th>
+      <th>コース</th>
+      <th>スタイリスト</th>
+      <th>所要時間</th>
+      <th>金額</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @reservations.each do |reservation| %>
+      <tr>
+        <td><%= Customer.find(reservation.customer_id).name %></td>
+        <td><%= reservation.reserved_date.strftime("%Y年 %m/%d %H:%M") %></td>
+        <td><%= Course.find(reservation.course_id).name %></td>
+        <%= reservation.shifts.count %><!-- デバッグ -->
+        <td><%= reservation.reserved_time %></td>
+        <td><%= reservation.reserved_time %></td>
+        <td><%= reservation.sum_price %></td>
+        <td><%= link_to '削除', reservation,
+                        method: :delete, data: { confirm: '本当に削除しますか?' } %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>現在、予約はありません。</p>
+<% end %>

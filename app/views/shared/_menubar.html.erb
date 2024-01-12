@@ -1,0 +1,10 @@
+<nav class="menubar">
+  <ul>
+    <%= menu_link_to "TOP", :root %>
+    <%= menu_link_to "美容院一覧", :salons %>
+    <%= menu_link_to "会員登録", "#" %>
+    <% if current_user %>
+      <%= menu_link_to "予約情報", :reservations %>
+    <% end %>
+  </ul>
+</nav>

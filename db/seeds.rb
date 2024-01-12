@@ -1,4 +1,4 @@
-table_names = %w(administrators owners customers shifts courses stylists salons)
+table_names = %w(administrators customers stylists shifts courses salons owners)
 table_names.each do |table_name|
     path = Rails.root.join("db/seeds", Rails.env, table_name + ".rb")
     if File.exist?(path)

@@ -1,0 +1,7 @@
+<% @page_title = "トップページ" %>
+<h1><%= @page_title %></h1>
+
+<%= render "shared/login_form" unless current_user %>
+
+<h2>美容院検索</h2>
+<%= render "shared/salon_form" %>

@@ -1,0 +1,31 @@
+<table class="attr">
+  <thead>
+  <tr><td>検索条件</td></tr>
+  </thead>
+  <tbody>
+  <tr>
+    <th>都道府県</th>
+    <td>
+      <%= form_tag :search_salons, method: :get, class: "search" do %>
+        <%= select_tag "q",
+                       options_for_select([["秋田県", "秋田県"],
+                                           ["埼玉県", "埼玉県"],
+                                           ["岩手県", "岩手県"],
+                                           ["埼玉県", "埼玉県"],
+                                           ["山梨県", "山梨県"],
+                                           ["栃木県", "栃木県"],
+                                           ["青森県", "青森県"],
+                                           ["栃木県", "栃木県"],
+                                           ["沖縄県", "沖縄県"],
+                                           ["群馬県", "群馬県"],
+                                           ["新潟県", "新潟県"],
+                                           ["神奈川県", "神奈川県"],
+                                           ["静岡県", "静岡県"],],
+                                          params[:q]),
+                       prompt: "条件なし" %>
+        <%= submit_tag '検索'%>
+      <% end %>
+    </td>
+  </tr>
+  </tbody>
+</table>

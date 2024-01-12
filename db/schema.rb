@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_22_060736) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_11_154742) do
   create_table "administrators", force: :cascade do |t|
     t.string "name", null: false
     t.string "email"
@@ -19,6 +19,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_22_060736) do
     t.date "birthday", default: -> { "CURRENT_DATE" }, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "password_digest"
   end
 
   create_table "courses", force: :cascade do |t|
@@ -37,6 +38,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_22_060736) do
     t.date "birthday", default: -> { "CURRENT_DATE" }, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "password_digest"
   end
 
   create_table "owners", force: :cascade do |t|
@@ -48,12 +50,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_22_060736) do
     t.date "birthday", default: -> { "CURRENT_DATE" }, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "password_digest"
     t.index ["salon_id"], name: "index_owners_on_salon_id"
   end
 
   create_table "reservations", force: :cascade do |t|
     t.integer "customer_id", null: false
-    t.date "reserved_date", null: false
+    t.datetime "reserved_date", null: false
     t.integer "reserved_time", null: false
     t.integer "sum_price", null: false
     t.integer "course_id", null: false
@@ -73,7 +76,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_22_060736) do
   end
 
   create_table "shifts", force: :cascade do |t|
-    t.integer "stylist_id", null: false
+    t.integer "stylist_id"
     t.integer "reservation_id"
     t.datetime "date_time", null: false
     t.datetime "created_at", null: false

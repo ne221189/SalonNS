@@ -1,0 +1,29 @@
+<% page_title = "美容院詳細" %>
+<h1><%= page_title %></h1>
+
+
+<%= form_for @reservation, url: new_reservation_path, method: :get do |form| %>
+  <table class="attr">
+    <tr>
+      <th>店舗名</th>
+      <td><%= @salon.name %></td>
+    </tr>
+    <tr>
+      <th>所在地</th>
+      <td><%= @salon.prefecture %><%= @salon.adress %></td>
+    </tr>
+    <tr>
+      <th><%= form.label "コース" %></th>
+      <td>
+        <%= select_tag "course_id", options_for_select(Course.pluck(:name, :id), params[:course_id]), prompt: "選択してください" %>
+      </td>
+    </tr>
+    <tr>
+      <th><%= form.label "スタイリスト" %></th>
+      <td>
+        <%= select_tag "stylist_id", options_for_select(Stylist.where(salon_id: @salon.id).pluck(:name, :id), params[:stylist_id]), include_blank: "選択してください" %>
+      </td>
+    </tr>
+  </table>
+  <div><%= form.submit "予約" %></div>
+<% end %>
