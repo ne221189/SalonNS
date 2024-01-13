@@ -1,5 +1,5 @@
-<% page_title = "美容院一覧" %>
-<h1><%= page_title %></h1>
+<% @page_title = "美容院一覧" %>
+<h1><%= @page_title %></h1>
 
 <%= render "shared/salon_form" %>
 
@@ -7,14 +7,12 @@
   <table class="list">
     <thead>
       <tr>
-        <th>店舗番号</th>
         <th>美容院名</th>
       </tr>
     </thead>
     <tbody>
       <% @salons.each do |salon| %>
         <tr>
-          <td><%= salon.id %></td>
           <td><%= link_to salon.name, salon %></td>
         </tr>
       <% end %>

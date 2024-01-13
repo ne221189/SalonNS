@@ -13,7 +13,15 @@
   <body>
     <div id="container">
       <header>
-        <%= render "shared/header" %>
+        <%=
+          if controller.kind_of?(Admin::Base)
+              render "admin/shared/header"
+          elsif controller.kind_of?(Owner::Base)
+              render "owner/shared/header"
+          else
+              render "shared/header"
+          end
+        %>
       </header>
       <main>
         <% if flash.notice %>

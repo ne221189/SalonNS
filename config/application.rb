@@ -36,7 +36,7 @@ module SalonNS
 
             config.time_zone = "Tokyo"
 
-            # config.active_record.default_timezone = :local
+            config.active_record.default_timezone = :local
 
             config.action_controller.permit_all_parameters = true
       end

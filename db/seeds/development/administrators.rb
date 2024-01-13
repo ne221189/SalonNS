@@ -1,4 +1,4 @@
-Administrator.create(
+Administrator.create!(
     name: "管理者 太郎",                                  #名前
     email: "adtaro@example.com",                        #メールアドレス
     phone: "090-1200-9800",                             #電話番号

@@ -1,11 +1,11 @@
-<% page_title = "アカウント情報の編集" %>
+<% @page_title = "アカウント情報の編集" %>
 
 <h1><%= @page_title %></h1>
 
 <div class="toolbar"><%= link_to "マイアカウントに戻る", :account %></div>
 
 <%= form_for @user, as: "account", url: :account do |form| %>
-  <% form.hidden_field :user_id, value: @user.id %>
+  <%= hidden_field_tag "user_id", @user.id %>
   <%= render "shared/user_form", form: form %>
-  <div><%= form.submit %></div>
+  <div><%= form.submit "更新" %></div>
 <% end %>

@@ -1,0 +1,7 @@
+<% @page_title = "美容院の新規登録" %>
+
+<h1><%= @page_title %></h1>
+<%= form_for [:admin, @salon] do |form| %>
+  <%= render "admin/shared/admin_salon_form", form: form %>
+  <div><%= form.submit "登録" %></div>
+<% end %>

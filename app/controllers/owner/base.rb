@@ -1,4 +1,4 @@
-class Own::Base < ApplicationController
+class Owner::Base < ApplicationController
     # ログインを要求
     before_action :own_login_required
 

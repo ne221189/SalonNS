@@ -1,0 +1,10 @@
+<%= image_tag "logo.PNG", size: "180x48", alt: "Salon NS" %>
+<% if current_owner %>
+  <ul class="account-menu">
+    <%= menu_link_to current_owner.name + "さん", :account %>
+    <%= menu_link_to "ログアウト", :owner_session,
+                     method: :delete, data: { confirm: "ログアウトしますか?" } %>
+  </ul>
+<% end %>
+
+<%= render "shared/owner_menubar" %>

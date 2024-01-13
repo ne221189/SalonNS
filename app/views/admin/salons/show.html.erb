@@ -1,0 +1,14 @@
+<% page_title = "美容院詳細" %>
+<h1><%= page_title %></h1>
+
+<table class="attr">
+  <tr>
+    <th>店舗名</th>
+    <td><%= @salon.name %></td>
+  </tr>
+  <tr>
+    <th>所在地</th>
+    <td><%= @salon.prefecture %><%= @salon.adress %></td>
+  </tr>
+</table>
+<%= link_to "一覧に戻る", :admin_salons %>

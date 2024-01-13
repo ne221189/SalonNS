@@ -1,0 +1,74 @@
+<% @page_title = "予約情報" %>
+<h1><%= @page_title %></h1>
+
+<h2>終了していない予約</h2>
+<% if @coming.present? %>
+  <table class="list">
+    <thead>
+    <tr>
+      <th>利用者</th>
+      <th>予約日時</th>
+      <th>コース</th>
+      <th>スタイリスト</th>
+      <th>店舗</th>
+      <th>所要時間</th>
+      <th>金額</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @coming.each do |reservation| %>
+      <tr>
+        <td><%= Customer.find(reservation.customer_id).name %> 様</td>
+        <td><%= reservation.reserved_date.strftime("%Y年 %m/%d %H:%M") %></td>
+        <td><%= Course.find(reservation.course_id).name %></td>
+        <% stylist = Stylist.find(reservation.shifts.first.stylist_id) %>
+        <td><%= stylist.name %></td>
+        <td><%= Salon.find(stylist.salon_id).name %></td>
+        <td><%= reservation.reserved_time*30 %>分</td>
+        <td><%= reservation.sum_price %>円</td>
+        <td><%= link_to 'キャンセル', reservation,
+                        method: :delete, data: { confirm: '本当にキャンセルしますか?' } %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>現在、予約はありません。</p>
+<% end %>
+
+<h2>終了した予約</h2>
+<% if @finished.present? %>
+  <table class="list">
+    <thead>
+    <tr>
+      <th>利用者</th>
+      <th>予約日時</th>
+      <th>コース</th>
+      <th>スタイリスト</th>
+      <th>店舗</th>
+      <th>所要時間</th>
+      <th>金額</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @finished.each do |reservation| %>
+      <tr>
+        <td><%= Customer.find(reservation.customer_id).name %> 様</td>
+        <td><%= reservation.reserved_date.strftime("%Y年 %m/%d %H:%M") %></td>
+        <td><%= Course.find(reservation.course_id).name %></td>
+        <% stylist = Stylist.find(reservation.shifts.first.stylist_id) %>
+        <td><%= stylist.name %></td>
+        <td><%= Salon.find(stylist.salon_id).name %></td>
+        <td><%= reservation.reserved_time*30 %>分</td>
+        <td><%= reservation.sum_price %>円</td>
+        <td><%= link_to 'キャンセル', reservation,
+                        method: :delete, data: { confirm: '本当にキャンセルしますか?' } %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>終了した予約はありません。</p>
+<% end %>

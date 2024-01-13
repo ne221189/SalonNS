@@ -13,7 +13,10 @@ Rails.application.routes.draw do
     resource :session, only: [:create, :destroy]
 
     # accountリソースの設定(単数)
-    resource :account, only: [:new, :create, :show, :edit, :update]
+    resource :account, only: [:new, :create, :show, :edit, :update, :destroy]
+
+    # customerリソースの設定(単数)
+    resource :customer, only: [:destroy]
 
     # passwordリソースの設定(単数)
     resource :password, only: [:show, :edit, :update]
@@ -21,9 +24,26 @@ Rails.application.routes.draw do
     # 名前空間の設定
     namespace :admin do
         root "top#index"
+
+        # salonsリソースの設定
+        resources :salons do
+            get "search", on: :collection
+        end
+
+        # reservationsリソースの設定
+        resources :reservations
+
+        # sessionリソースの設定(単数)
+        resource :session, only: [:create, :destroy]
     end
 
-    namespace :own do
+    namespace :owner do
         root "top#index"
+
+        # reservationsリソースの設定
+        resources :reservations
+
+        # sessionリソースの設定(単数)
+        resource :session, only: [:create, :destroy]
     end
 end

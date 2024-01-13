@@ -12,18 +12,21 @@
       <th>所在地</th>
       <td><%= @salon.prefecture %><%= @salon.adress %></td>
     </tr>
-    <tr>
-      <th><%= form.label "コース" %></th>
-      <td>
-        <%= select_tag "course_id", options_for_select(Course.pluck(:name, :id), params[:course_id]), prompt: "選択してください" %>
-      </td>
-    </tr>
-    <tr>
-      <th><%= form.label "スタイリスト" %></th>
-      <td>
-        <%= select_tag "stylist_id", options_for_select(Stylist.where(salon_id: @salon.id).pluck(:name, :id), params[:stylist_id]), include_blank: "選択してください" %>
-      </td>
-    </tr>
+    <% if current_customer %>
+      <tr>
+        <th><%= form.label "コース" %></th>
+        <td>
+          <%= select_tag "course_id", options_for_select(Course.pluck(:name, :id), params[:course_id]) %>
+        </td>
+      </tr>
+      <tr>
+        <th><%= form.label "スタイリスト" %></th>
+        <td>
+          <%= select_tag "stylist_id", options_for_select(Stylist.where(salon_id: @salon.id).pluck(:name, :id), params[:stylist_id]) %>
+        </td>
+      </tr>
+    <% end %>
   </table>
   <div><%= form.submit "予約" %></div>
 <% end %>
+<%= link_to "一覧に戻る", :salons %>

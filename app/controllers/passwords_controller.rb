@@ -6,7 +6,7 @@ class PasswordsController < ApplicationController
     end
 
     def edit
-        @user = current_user
+        @user = current_customer
     end
 
     def update

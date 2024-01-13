@@ -5,6 +5,8 @@
 <ul class="toolbar">
   <%= menu_link_to "アカウント情報の編集", :edit_account %>
   <%= menu_link_to "パスワードの変更", :edit_password %>
+  <%= link_to '退会', :account,
+              method: :delete, data: { confirm: '本当に退会しますか?' } %>
 </ul>
 
 <%= render "customers/body" %>

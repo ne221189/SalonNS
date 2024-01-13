@@ -4,6 +4,7 @@
   <%= form.hidden_field :reserved_time, value: @required_time %>
   <%= form.hidden_field :sum_price, value: @course.price %>
   <%= form.hidden_field :course_id, value: @course.id %>
+  <%= hidden_field_tag "stylist_id", @stylist.id %>
   <thead>
   <tr>
     <th></th>
@@ -15,10 +16,10 @@
   </thead>
   <tbody>
   <!-- 時間の行を30分ごとに作成 -->
-  <% 48.times do |half_hour| %>
+  <% @shift_is_free.length.times do |half_hour| %>
     <tr>
       <!-- 時間のセル -->
-      <% time = DateTime.new(2024, 1, 1, half_hour / 2, (half_hour % 2) * 30) %>
+      <% time = Time.new(2024, 1, 1, half_hour / 2, (half_hour % 2) * 30) %>
       <th><%= time.strftime("%H:%M") %></th>
       <!-- 日付ごとのセル -->
       <% @shift_range.each_with_index do |date, day| %>
@@ -26,13 +27,14 @@
           <!-- コースによって予約を入れる余地があるか判定 -->
           <% flag = true %>
           <% @required_time.times do |i| %>
-            <% flag = false if half_hour + i >= 48 or !@shift_is_free[half_hour + i][day][:is_free] %>
+            <% unless (half_hour + i < @shift_is_free.length) and @shift_is_free[half_hour + i][day][:is_free] %>
+              <% flag = false %>
+            <% end %>
           <% end %>
           <% if flag %>
+            <!-- 予約した先頭のシフト -->
             <% shift = @shift_is_free[half_hour][day][:shift] %>
             <%= form.radio_button :reserved_date, shift.date_time %>
-            <!-- 予約した先頭のシフト -->
-            <%= hidden_field_tag "shift_id", shift.id %>
           <% else %>
             x
           <% end %>

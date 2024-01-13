@@ -1,0 +1,7 @@
+<% @page_title = "アカウントの新規作成" %>
+<h1><%= @page_title %></h1>
+
+<%= form_for @user, as: "account", url: :account do |form| %>
+  <%= render "shared/user_form", form: form %>
+  <div><%= form.submit "作成" %></div>
+<% end %>

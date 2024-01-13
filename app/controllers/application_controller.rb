@@ -1,9 +1,19 @@
 class ApplicationController < ActionController::Base
     # ログインしている利用者
-    private def current_user
+    private def current_customer
         Customer.find_by(id: session[:customer_id]) if session[:customer_id]
     end
-    helper_method :current_user
+    helper_method :current_customer
+
+    private def current_owner
+        Owner.find_by(id: session[:owner_id]) if session[:owner_id]
+    end
+    helper_method :current_owner
+
+    private def current_administrator
+        Administrator.find_by(id: session[:administrator_id]) if session[:administrator_id]
+    end
+    helper_method :current_administrator
 
     class LoginRequired < StandardError; end
     class Forbidden < StandardError; end
@@ -19,7 +29,7 @@ class ApplicationController < ActionController::Base
 
     # エラーの時実行するメソッド
     private def login_required
-        raise LoginRequired unless current_user
+        raise LoginRequired unless current_customer
     end
 
     private def rescue_bad_request(exception)
