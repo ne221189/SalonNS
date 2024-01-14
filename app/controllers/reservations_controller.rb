@@ -5,11 +5,11 @@ class ReservationsController < ApplicationController
         # ログイン中のユーザーの予約リスト
         @reservations = Reservation.where(customer_id: current_customer.id)
 
-        # 終わったものとそうでないものの仕分け
+        # 終わったものとそうでないものの仕分け(予約先のシフトが欠損している場合も同じ扱い)
         @coming = []
         @finished = []
         @reservations.each do |reservation|
-            if reservation.reserved_date < Time.current
+            if reservation.reserved_date < Time.current or reservation.shifts.first&.stylist&.salon.nil? or reservation.shifts.length < reservation.reserved_time
                 @finished.push(reservation)
             else
                 @coming.push(reservation)
@@ -37,11 +37,14 @@ class ReservationsController < ApplicationController
 
         # シフトが枠単位で空いているかどうか判定する配列を作成
         # 各要素は空いているかどうか(is_free)とそのシフト自体のインスタンス(shifts)のハッシュ
-        @shift_range = @shifts.first.date_time.to_date..@shifts.last.date_time.to_date
+        @shift_range = @shifts.first&.date_time&.to_date..@shifts.last&.date_time&.to_date
         # 列数(integer)
-        size = @shifts.last.date_time.to_date - @shifts.first.date_time.to_date + 1
+        @size = @shifts.last&.date_time&.to_date ? @shifts.last&.date_time&.to_date - @shifts.first&.date_time&.to_date + 1 : 0
         # 二次元配列の初期化
-        @shift_is_free = Array.new(48) { Array.new(size) { { is_free: false, shift: Shift.new } } }
+        @shift_is_free = Array.new(48) { Array.new(@size) { { is_free: false, shift: Shift.new } } }
+
+        return if @size == 0
+
         # 配列の要素をセット
         48.times do |half_hour|
             # 時間を動かすための変数
@@ -93,10 +96,6 @@ class ReservationsController < ApplicationController
     # 予約キャンセル
     def destroy
         @reservation = Reservation.find(params[:id])
-        shifts = @reservation.shifts
-        shifts.each do |shift|
-            shift.update(reservation_id: nil)
-        end
         @reservation.destroy
         redirect_to :reservations, notice: "予約をキャンセルしました。"
     end

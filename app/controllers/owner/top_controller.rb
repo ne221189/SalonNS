@@ -1,4 +1,4 @@
-class Owner::TopController < ApplicationController
+class Owner::TopController < Owner::Base
   def index
   end
 end

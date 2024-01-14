@@ -43,6 +43,12 @@ Rails.application.routes.draw do
         # reservationsリソースの設定
         resources :reservations
 
+        # stylistsリソースの設定
+        resources :stylists
+
+        # salonリソースの設定(単数)
+        resource :salon
+
         # sessionリソースの設定(単数)
         resource :session, only: [:create, :destroy]
     end

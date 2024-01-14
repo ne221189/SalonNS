@@ -1,0 +1,75 @@
+<h2>現在の予約状況</h2>
+<% if @coming.present? %>
+  <table class="list">
+    <thead>
+    <tr>
+      <th>利用者</th>
+      <th>予約日時</th>
+      <th>コース</th>
+      <th>スタイリスト</th>
+      <th>店舗</th>
+      <th>所要時間</th>
+      <th>金額</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @coming.each do |reservation| %>
+      <tr>
+        <td><%= Customer.find(reservation.customer_id).name %> 様</td>
+        <td><%= reservation.reserved_date.strftime("%Y年 %m/%d %H:%M") %></td>
+        <td><%= Course.find(reservation.course_id).name %></td>
+        <% stylist = Stylist.find(reservation.shifts.first&.stylist_id) if reservation.shifts.first %>
+        <td><%= stylist.name %></td>
+        <% salon = Salon.find_by(id: stylist.salon_id) %>
+        <td><%= link_to salon.name, salon %></td>
+        <td><%= reservation.reserved_time*30 %>分</td>
+        <td><%= reservation.sum_price %>円</td>
+        <td><%= link_to 'キャンセル', reservation,
+                        method: :delete, data: { confirm: '本当にキャンセルしますか?' } %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>現在、予約はありません。</p>
+<% end %>
+
+<h2>予約履歴</h2>
+<% if @finished.present? %>
+  <table class="list">
+    <thead>
+    <tr>
+      <th>利用者</th>
+      <th>予約日時</th>
+      <th>コース</th>
+      <th>スタイリスト</th>
+      <th>店舗</th>
+      <th>所要時間</th>
+      <th>金額</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @finished.each do |reservation| %>
+      <tr>
+        <td><%= Customer.find(reservation.customer_id).name %> 様</td>
+        <td><%= reservation.reserved_date.strftime("%Y年 %m/%d %H:%M") %></td>
+        <td><%= Course.find(reservation.course_id).name %></td>
+        <!-- スタイリストが消えていれば不明にする -->
+        <% stylist = Stylist.find(reservation.shifts.first&.stylist_id) if reservation.shifts.first %>
+        <td><%= stylist ? stylist.name : "不明" %></td>
+        <!-- サロンが消えていれば不明にする -->
+        <% salon = Salon.find_by(id: stylist&.salon_id) %>
+        <td><%= salon ? link_to(salon.name, salon) : "不明" %></td>
+        <td><%= reservation.reserved_time*30 %>分</td>
+        <td><%= reservation.sum_price %>円</td>
+        <td><%= link_to '削除', reservation,
+                        method: :delete, data: { confirm: '本当に削除しますか?' } %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>予約履歴はありません。</p>
+<% end %>

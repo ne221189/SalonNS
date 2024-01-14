@@ -1,11 +1,11 @@
 class Admin::SessionsController < Admin::Base
     def create
         # 送信された名前に合致する利用者を取り出し、セット (&.はnilがセットされた時のエラー防止)
-        user = Administrator.find_by(name: params[:name])
+        administrator = Administrator.find_by(name: params[:name])
 
         # パスワードが一致すればidをセッションに保存
-        if user&.authenticate(params[:password])
-            session[:administrator_id] = user.id
+        if administrator&.authenticate(params[:password])
+            session[:administrator_id] = administrator.id
         else
             flash.alert = "名前とパスワードが一致しません"
         end

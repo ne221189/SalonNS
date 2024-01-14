@@ -4,11 +4,11 @@ class Admin::ReservationsController < Admin::Base
     def index
         @reservations = Reservation.order(:id)
 
-        # 終わったものとそうでないものの仕分け
+        # 終わったものとそうでないものの仕分け(予約先のシフトが欠損している場合も同じ扱い)
         @coming = []
         @finished = []
         @reservations.each do |reservation|
-            if reservation.reserved_date < Time.current
+            if reservation.reserved_date < Time.current or reservation.shifts.first&.stylist&.salon.nil? or reservation.shifts.length < reservation.reserved_time
                 @finished.push(reservation)
             else
                 @coming.push(reservation)
@@ -18,12 +18,8 @@ class Admin::ReservationsController < Admin::Base
 
     # 予約キャンセル
     def destroy
-        shifts = @reservation.shifts
-        shifts.each do |shift|
-            shift.update(reservation_id: nil)
-        end
         @reservation = Reservation.find(params[:id])
         @reservation.destroy
-        redirect_to :reservations, notice: "予約を削除しました。"
+        redirect_to :admin_reservations, notice: "予約を削除しました。"
     end
 end

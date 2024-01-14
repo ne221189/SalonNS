@@ -9,8 +9,8 @@ gnames = ["太郎", "次郎", "花子"]
         email: "#{names[idx]}.owner@example.com",           #メールアドレス
         phone: "090-98#{idx}-12#{idx}",                     #電話番号
         sex: [1, 1, 2][idx % 3],                            #性別
-        birthday: "1981-12-01",                              #生年月日
-        password: "salonNS",                                # パスワード
-        password_confirmation: "salonNS"                    # 確認用パスワード
+        birthday: "1981-12-01",                             #生年月日
+        password: "salonNS2023",                            # パスワード
+        password_confirmation: "salonNS2023"                # 確認用パスワード
     )
 end

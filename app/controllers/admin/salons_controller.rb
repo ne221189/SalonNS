@@ -13,6 +13,8 @@ class Admin::SalonsController < Admin::Base
 
     def show
         @salon = Salon.find(params[:id])
+
+        @stylists = @salon.stylists
     end
 
     # 新規作成フォーム

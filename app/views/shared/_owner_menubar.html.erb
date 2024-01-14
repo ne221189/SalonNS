@@ -1,9 +1,8 @@
 <nav class="menubar" id="owner-menubar">
   <ul>
     <%= menu_link_to "美容院TOP", :owner_root %>
-    <% if current_administrator %>
-      <%= menu_link_to "美容院管理", :owner_salons %>
-      <%= menu_link_to "予約管理", :owner_reservations %>
+    <% if current_owner %>
+      <%= menu_link_to "スタイリスト管理", :owner_stylists %>
     <% end %>
   </ul>
 </nav>

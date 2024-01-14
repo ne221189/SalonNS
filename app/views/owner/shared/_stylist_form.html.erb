@@ -1,0 +1,14 @@
+<%= render "shared/errors", obj: @stylist %>
+<table class="attr">
+  <tr>
+    <th><%= form.label :salon_id, "所属店舗" %></th>
+    <td><%= form.select :salon_id,
+                        options_for_select(Salon.order(:name).pluck(:name, :id),
+                                           params[:q]) %>
+    </td>
+  </tr>
+  <tr>
+    <th><%= form.label :name, "名前" %></th>
+    <td><%= form.text_field :name %></td>
+  </tr>
+</table>

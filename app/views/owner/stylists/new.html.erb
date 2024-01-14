@@ -1,0 +1,7 @@
+<% @page_title = "スタイリストの新規登録" %>
+
+<h1><%= @page_title %></h1>
+<%= form_for [:owner, @stylist] do |form| %>
+  <%= render "owner/shared/stylist_form", form: form %>
+  <div><%= form.submit "登録" %></div>
+<% end %>
