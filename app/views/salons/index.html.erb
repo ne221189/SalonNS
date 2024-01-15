@@ -8,12 +8,14 @@
     <thead>
       <tr>
         <th>美容院名</th>
+        <th>お気に入りにされた数</th>
       </tr>
     </thead>
     <tbody>
       <% @salons.each do |salon| %>
         <tr>
           <td><%= link_to salon.name, salon %></td>
+          <td>⭐️<%= salon.votes.count %></td>
         </tr>
       <% end %>
     </tbody>

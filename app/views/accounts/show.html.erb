@@ -1,7 +1,7 @@
 <% @page_title = "マイアカウント" %>
 
 <h1><%= @page_title %></h1>
-
+<%= render "shared/errors", obj: @user %>
 <ul class="toolbar">
   <%= menu_link_to "アカウント情報の編集", :edit_account %>
   <%= menu_link_to "パスワードの変更", :edit_password %>
@@ -9,4 +9,20 @@
               method: :delete, data: { confirm: '本当に退会しますか?' } %>
 </ul>
 
-<%= render "customers/body" %>
+<%= render "accounts/body" %>
+
+
+<h2>お気に入り店舗</h2>
+<% if @voted_salons.present? %>
+  <ul>
+    <% @voted_salons.each do |salon| %>
+      <li>
+        <%= link_to salon.name, salon %>
+        - <%= link_to "お気に入り解除", [:unlike, salon], method: :patch,
+                      data: { confirm: "お気に入りから削除しますか?" } %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>お気に入り登録した店舗はありません</p>
+<% end %>

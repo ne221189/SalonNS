@@ -10,7 +10,7 @@ class PasswordsController < ApplicationController
     end
 
     def update
-        @user = current_user
+        @user = current_customer
         current_password = params[:account][:current_password]
 
         if current_password.present?
@@ -23,7 +23,7 @@ class PasswordsController < ApplicationController
                     render "edit"
                 end
             else # 間違っている時のエラー
-                @user.error.add(:current_password, :wrong)
+                @user.errors.add(:current_password, :wrong)
                 render "edit"
             end
         else # 空だった時のエラー

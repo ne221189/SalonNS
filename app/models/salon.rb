@@ -4,7 +4,8 @@ class Salon < ApplicationRecord
     # 多数のスタイリストを持つ
     has_many :stylists
     # 多数のお気に入り登録を持つ
-    has_many :votes
+    has_many :votes, dependent: :destroy
+    has_many :voters, through: :votes, source: :customer
 
     # 美容院名バリデーション 最大10文字、空はNG
     validates :name, presence: true,

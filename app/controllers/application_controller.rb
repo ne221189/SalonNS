@@ -1,4 +1,18 @@
 class ApplicationController < ActionController::Base
+    # 予約の仕分け
+    private def sort_reservations(reservations)
+        coming = []
+        finished = []
+        reservations.each do |reservation|
+            if reservation.reserved_date < Time.current or reservation.shifts.first&.stylist&.salon.nil? or reservation.shifts.length < reservation.reserved_time
+                finished.push(reservation)
+            else
+                coming.push(reservation)
+            end
+        end
+        [coming, finished]
+    end
+
     # ログインしている利用者
     private def current_customer
         Customer.find_by(id: session[:customer_id]) if session[:customer_id]

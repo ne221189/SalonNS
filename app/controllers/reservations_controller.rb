@@ -6,19 +6,34 @@ class ReservationsController < ApplicationController
         @reservations = Reservation.where(customer_id: current_customer.id)
 
         # 終わったものとそうでないものの仕分け(予約先のシフトが欠損している場合も同じ扱い)
-        @coming = []
-        @finished = []
-        @reservations.each do |reservation|
-            if reservation.reserved_date < Time.current or reservation.shifts.first&.stylist&.salon.nil? or reservation.shifts.length < reservation.reserved_time
-                @finished.push(reservation)
-            else
-                @coming.push(reservation)
+        @coming, @finished = sort_reservations(@reservations)
+    end
+
+    # 予約表の元となる二次元配列を作成
+    private def make_table(shifts, shift_range, shift_is_free)
+        # 配列の要素をセット
+        48.times do |half_hour|
+            # 時間を動かすための変数
+            time = Time.new(2024, 1, 1, half_hour / 2, (half_hour % 2) * 30)
+            # 日付ごとのセル
+            shift_range.each_with_index do |date, day|
+                date_time = Time.new(date.year, date.month, date.day, time.hour, time.min, time.sec)
+                shift = shifts.find_by(date_time: date_time)
+                # 枠が埋まっているかどうか
+                if shift && shift.reservation_id.nil?
+                    shift_is_free[half_hour][day][:is_free] = true
+                    shift_is_free[half_hour][day][:shift] = shift
+                end
             end
         end
     end
 
     # 予約フォーム
     def new
+        if params[:stylist_id].nil? or params[:course_id].nil?
+            redirect_to "/salons/#{params[:salon_id]}", notice: "入力しなおしてください。"
+            return
+        end
         # 予約インスタンス
         @reservation = Reservation.new(params[:reservation])
 
@@ -43,23 +58,7 @@ class ReservationsController < ApplicationController
         # 二次元配列の初期化
         @shift_is_free = Array.new(48) { Array.new(@size) { { is_free: false, shift: Shift.new } } }
 
-        return if @size == 0
-
-        # 配列の要素をセット
-        48.times do |half_hour|
-            # 時間を動かすための変数
-            time = Time.new(2024, 1, 1, half_hour / 2, (half_hour % 2) * 30)
-            # 日付ごとのセル
-            @shift_range.each_with_index do |date, day|
-                date_time = Time.new(date.year, date.month, date.day, time.hour, time.min, time.sec)
-                shift = @shifts.find_by(date_time: date_time)
-                # 枠が埋まっているかどうか
-                if shift && shift.reservation_id.nil?
-                    @shift_is_free[half_hour][day][:is_free] = true
-                    @shift_is_free[half_hour][day][:shift] = shift
-                end
-            end
-        end
+        make_table(@shifts, @shift_range, @shift_is_free) unless @size == 0
     end
 
     # 予約登録

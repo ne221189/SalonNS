@@ -4,6 +4,8 @@ class AccountsController < ApplicationController
     def show
         # ログイン中のユーザー
         @user = current_customer
+        @voted_salons = @user.voted_salons
+                          .order("votes.created_at DESC")
     end
 
     def new
@@ -35,7 +37,12 @@ class AccountsController < ApplicationController
 
     # 退会
     def destroy
-        @user = Customer.find(params[:id])
+        @user = current_customer
+        unless sort_reservations(@user.reservations)[0].nil?
+            @user.errors.add(:user, "は予約がある状態では退会できません")
+            render "show"
+            return
+        end
         session.delete(@user.id)
         @user.destroy
         redirect_to :root, notice: "退会しました。"

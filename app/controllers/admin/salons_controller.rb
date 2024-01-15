@@ -22,11 +22,6 @@ class Admin::SalonsController < Admin::Base
         @salon = Salon.new
     end
 
-    # 更新フォーム
-    def edit
-        @salon = Salon.find(params[:id])
-    end
-
     # 会員の新規登録
     def create
         @salon = Salon.new(params[:salon])
@@ -35,6 +30,11 @@ class Admin::SalonsController < Admin::Base
         else
             render "new"
         end
+    end
+
+    # 更新フォーム
+    def edit
+        @salon = Salon.find(params[:id])
     end
 
     # 会員情報の更新

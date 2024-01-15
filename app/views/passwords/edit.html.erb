@@ -4,7 +4,7 @@
 <div class="toolbar"><%= link_to "マイアカウントに戻る", :account %></div>
 
 <%= form_for @user, as: "account", url: :password do |form| %>
-  <%#= render "shared/errors", obj: @user %>
+  <%= render "shared/errors", obj: @user %>
 
   <table class="attr">
     <tr>

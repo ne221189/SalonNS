@@ -2,21 +2,20 @@ Rails.application.routes.draw do
     root "top#index"
 
     # salonリソースの設定
-    resources :salons do
+    resources :salons, except: [:new, :create, :edit, :update, :destroy] do
+        patch "like", "unlike", on: :member
+        get "voted", on: :collection
         get "search", on: :collection
     end
 
     # reservationsリソースの設定
-    resources :reservations
+    resources :reservations, except: [:show, :edit, :update]
 
     # sessionリソースの設定(単数)
     resource :session, only: [:create, :destroy]
 
     # accountリソースの設定(単数)
-    resource :account, only: [:new, :create, :show, :edit, :update, :destroy]
-
-    # customerリソースの設定(単数)
-    resource :customer, only: [:destroy]
+    resource :account, except: :index
 
     # passwordリソースの設定(単数)
     resource :password, only: [:show, :edit, :update]
@@ -31,7 +30,7 @@ Rails.application.routes.draw do
         end
 
         # reservationsリソースの設定
-        resources :reservations
+        resources :reservations, only: [:index, :destroy]
 
         # sessionリソースの設定(単数)
         resource :session, only: [:create, :destroy]
@@ -40,14 +39,8 @@ Rails.application.routes.draw do
     namespace :owner do
         root "top#index"
 
-        # reservationsリソースの設定
-        resources :reservations
-
         # stylistsリソースの設定
-        resources :stylists
-
-        # salonリソースの設定(単数)
-        resource :salon
+        resources :stylists, except: :show
 
         # sessionリソースの設定(単数)
         resource :session, only: [:create, :destroy]

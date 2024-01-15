@@ -4,6 +4,6 @@ Administrator.create!(
     phone: "090-1200-9800",                             #電話番号
     sex: 1,                                             #性別
     birthday: "1981-12-01",                             #生年月日
-    password: "salonNS",                                # パスワード
-    password_confirmation: "salonNS"                    # 確認用パスワード
+    password: "salonNS2023",                                # パスワード
+    password_confirmation: "salonNS2023"                    # 確認用パスワード
 )

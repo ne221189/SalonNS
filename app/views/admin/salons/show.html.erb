@@ -8,8 +8,16 @@
     <td><%= @salon.name %></td>
   </tr>
   <tr>
+    <th>オーナー</th>
+    <td><%= @salon.owner&.name %></td>
+  </tr>
+  <tr>
     <th>所在地</th>
     <td><%= @salon.prefecture %><%= @salon.adress %></td>
+  </tr>
+  <tr>
+    <th>お気に入り</th>
+    <td>⭐︎<%= @salon.votes.count %></td>
   </tr>
 </table>
 

@@ -42,6 +42,6 @@ class Owner::StylistsController < Owner::Base
   def destroy
       @stylist = Stylist.find(params[:id])
       @stylist.destroy
-      redirect_to :admin_salons, notice: "美容院を削除しました。"
+      redirect_to :owner_stylists, notice: "スタイリストを削除しました。"
   end
 end

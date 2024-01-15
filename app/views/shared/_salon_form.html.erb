@@ -3,7 +3,7 @@
   <tr><td>検索条件</td></tr>
   </thead>
   <tbody>
-  <%= form_tag :search_salons, method: :get, class: "search" do |form| %>
+  <%= form_tag :search_salons, method: :get do %>
     <tr>
       <th>都道府県</th>
       <td>
@@ -22,14 +22,6 @@
                          prompt: "条件なし" %>
       </td>
     </tr>
-<!--    時間帯検索(未実装)-->
-<!--    <tr>-->
-<!--      <th>予約可能な時間帯</th>-->
-<!--      <td>-->
-<!--        <%#= form.datetime_select "d", prefix: "datetime", prompt: "--", use_month_numbers: true, date_separator:"/", start_year: Time.now.year, minute_step: 30 %></td>-->
-<!--    </tr>-->
-<!--    <p><%#= params[:datetime] %></p>-->
-<!--    <p><%#= params %></p>-->
     <tr><td><%= submit_tag '検索'%></td></tr>
   <% end %>
   </tbody>

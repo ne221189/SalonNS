@@ -63,15 +63,6 @@ main {
   padding: 10px 10px 10px 0;
 }
 
-/* 右の枠（サイドバーを入れる） */
-aside#sidebar {
-  float: left;
-  width: 230px;
-  background-color: #e8ffff;
-  padding: 5px;
-  font-size: 86%;
-}
-
 /* ヘッダー */
 header {
   border-top: 4px solid #6bb;
@@ -80,16 +71,6 @@ header {
 
 ul.account-menu {
   text-align: right;
-}
-
-/* フッター */
-footer {
-  clear: both;
-  font: 11px Verdana;
-  color: #888;
-  padding: 8px 0;
-  border-top: 4px solid #6bb;
-  text-align: center;
 }
 
 footer nav ul li:not(:last-child):after {

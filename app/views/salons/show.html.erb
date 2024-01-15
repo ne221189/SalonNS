@@ -12,6 +12,10 @@
       <th>所在地</th>
       <td><%= @salon.prefecture %><%= @salon.adress %></td>
     </tr>
+    <tr>
+      <th>お気に入り</th>
+      <td>⭐︎<%= @salon.votes.count %><%= render "votes" %></td>
+    </tr>
     <% if current_customer %>
       <tr>
         <th><%= form.label "コース" %></th>
@@ -28,5 +32,6 @@
     <% end %>
   </table>
   <div><%= form.submit "予約" %></div>
+  <%= hidden_field_tag "salon_id", @salon.id %>
 <% end %>
 <%= link_to "一覧に戻る", :salons %>

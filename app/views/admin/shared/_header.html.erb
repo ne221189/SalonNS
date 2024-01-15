@@ -1,7 +1,7 @@
 <%= image_tag "logo.PNG", size: "180x48", alt: "Salon NS" %>
 <% if current_administrator %>
   <ul class="account-menu">
-    <%= menu_link_to current_administrator.name + "さん", :account %>
+    <%= current_administrator.name + "さん" %>
     <%= menu_link_to "ログアウト", :admin_session,
                      method: :delete, data: { confirm: "ログアウトしますか?" } %>
   </ul>
