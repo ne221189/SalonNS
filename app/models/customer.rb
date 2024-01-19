@@ -21,12 +21,13 @@ class Customer < ApplicationRecord
     validates :name, presence: true, length: { maximum: 10 }
     # 生年月日バリデーション 今日より前
     validates :birthday, comparison: { less_than: Time.current.to_date }
-    # 空白はNG、数字・ハイフン・丸括弧のみから構成、8文字以上20文字以内
-    validates :phone,
+    # 数字・ハイフン・丸括弧のみから構成、8文字以上20文字以内、空白NG
+    validates :phone, presence: true,
               format: { with: /\A[0-9\(\)-]*\z/, allow_blank: true },
               length: { minimum: 8, maximum: 20, allow_blank: true }
-    # Eメールバリデーション 空白OK
+    # Eメールバリデーション
     validates :email, email: { allow_brank: true }
+    # パスワードバリデーション 空白はNG、数字・ハイフン・丸括弧のみから構成、8文字以上20文字以内x
     validates :password, presence: true,
               format: { with: /\A[0-9A-Za-z!]*\z/, allow_blank: true,
                         message: "must consist of alphanumeric characters or '!'"},

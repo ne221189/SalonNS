@@ -38,7 +38,7 @@ class AccountsController < ApplicationController
     # 退会
     def destroy
         @user = current_customer
-        unless sort_reservations(@user.reservations)[0].nil?
+        unless sort_reservations(@user.reservations)[0].length == 0
             @user.errors.add(:user, "は予約がある状態では退会できません")
             render "show"
             return

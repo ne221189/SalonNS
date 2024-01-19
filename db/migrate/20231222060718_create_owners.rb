@@ -1,7 +1,7 @@
 class CreateOwners < ActiveRecord::Migration[7.0]
   def change
     create_table :owners do |t|
-      t.references :salon, null: false
+      t.references :salon # 美容院
       t.string :name, null: false # 名前
       t.string :email # メールアドレス
       t.string :phone, null: false # 電話番号

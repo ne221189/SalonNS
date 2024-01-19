@@ -4,7 +4,7 @@
     <th><%= form.label :salon_id, "所属店舗" %></th>
     <td><%= form.select :salon_id,
                         options_for_select(Salon.order(:name).pluck(:name, :id),
-                                           params[:q]) %>
+                                           current_owner.salon.id) %>
     </td>
   </tr>
   <tr>

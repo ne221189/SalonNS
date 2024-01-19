@@ -26,6 +26,10 @@ class Admin::SalonsController < Admin::Base
     def create
         @salon = Salon.new(params[:salon])
         if @salon.save
+            # オーナーの関連付け
+            Owner.find(params[:salon][:owner_id]).update(salon_id: @salon.id)
+
+
             redirect_to [:admin, @salon], notice: "新規美容院を登録しました"
         else
             render "new"
@@ -49,8 +53,16 @@ class Admin::SalonsController < Admin::Base
     end
 
     def destroy
-        @salon = Salon.find(params[:id])
-        @salon.destroy
+        @salon = Salon.find_by(id: params[:id])
+        @salon.stylists.each do |stylist|
+            stylist.shifts.each do |shift|
+                if !shift.reservation_id.nil? and shift.date_time >= Time.now
+                    redirect_to [:admin, :salons], notice: "予約がある状態では削除できません"
+                    return
+                end
+            end
+        end
+        @salon&.destroy
         redirect_to :admin_salons, notice: "美容院を削除しました。"
     end
 end

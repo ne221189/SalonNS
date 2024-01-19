@@ -18,8 +18,8 @@ class Admin::ReservationsController < Admin::Base
 
     # 予約キャンセル
     def destroy
-        @reservation = Reservation.find(params[:id])
-        @reservation.destroy
+        @reservation = Reservation.find_by(id: params[:id])
+        @reservation&.destroy
         redirect_to :admin_reservations, notice: "予約を削除しました。"
     end
 end

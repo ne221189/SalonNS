@@ -42,7 +42,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_11_154742) do
   end
 
   create_table "owners", force: :cascade do |t|
-    t.integer "salon_id", null: false
+    t.integer "salon_id"
     t.string "name", null: false
     t.string "email"
     t.string "phone", null: false

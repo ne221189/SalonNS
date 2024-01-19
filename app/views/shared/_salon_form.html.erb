@@ -22,6 +22,12 @@
                          prompt: "条件なし" %>
       </td>
     </tr>
+    <tr>
+      <th>お気に入りのみ表示</th>
+      <td>
+        <label><%= check_box_tag "liked", true, checked=params[:liked] %></label>
+      </td>
+    </tr>
     <tr><td><%= submit_tag '検索'%></td></tr>
   <% end %>
   </tbody>

@@ -19,6 +19,16 @@ class Owner::StylistsController < Owner::Base
   def create
       @stylist = Stylist.new(params[:stylist])
       if @stylist.save
+          # シフトを同時に追加(仮)
+          18.upto(25) do |day|
+              start = Time.new(2024,1,day,9,0,0)
+              24.times do |time|
+                  Shift.create!(
+                      stylist_id: @stylist.id,
+                      date_time: start.since(30.minutes*time)
+                  )
+              end
+          end
           redirect_to [:owner, :stylists], notice: "新規スタイリストを登録しました"
       else
           render "new"
@@ -40,8 +50,8 @@ class Owner::StylistsController < Owner::Base
   end
 
   def destroy
-      @stylist = Stylist.find(params[:id])
-      @stylist.destroy
+      @stylist = Stylist.find_by(id: params[:id])
+      @stylist&.destroy
       redirect_to :owner_stylists, notice: "スタイリストを削除しました。"
   end
 end

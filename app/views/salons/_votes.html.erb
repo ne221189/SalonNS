@@ -1,3 +1,7 @@
-<% if current_customer && current_customer.votable_for?(@salon) %>
-  <%= link_to "⭐︎お気に入り登録", [:like, @salon], method: :patch, class: "button" %>
+<% if current_customer %>
+  <% if current_customer.votable_for?(@salon) %>
+    <%= link_to "⭐︎お気に入り登録", [:like, @salon], method: :patch, class: "button" %>
+  <% else %>
+    <%= link_to "お気に入り解除", [:unlike, @salon], method: :patch %>
+  <% end %>
 <% end %>

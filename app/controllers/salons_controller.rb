@@ -12,7 +12,7 @@ class SalonsController < ApplicationController
 
     # 美容院検索機能
     def search
-        @salons = Salon.search(params[:q])
+        @salons = Salon.search(params[:q], params[:liked], current_customer)
         render "index"
     end
 
@@ -26,7 +26,7 @@ class SalonsController < ApplicationController
 
     # 投票削除
     def unlike
-        current_customer.voted_salons.destroy(Salon.find(params[:id]))
-        redirect_to :account, notice: "お気に入りから削除しました"
+        current_customer.voted_salons.destroy(Salon.find_by(id: params[:id]))
+        redirect_to "/salons/#{params[:id]}", notice: "お気に入りから削除しました"
     end
 end

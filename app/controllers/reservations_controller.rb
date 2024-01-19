@@ -52,9 +52,9 @@ class ReservationsController < ApplicationController
 
         # シフトが枠単位で空いているかどうか判定する配列を作成
         # 各要素は空いているかどうか(is_free)とそのシフト自体のインスタンス(shifts)のハッシュ
-        @shift_range = @shifts.first&.date_time&.to_date..@shifts.last&.date_time&.to_date
+        @shift_range = Time.now.to_date..@shifts.last&.date_time&.to_date
         # 列数(integer)
-        @size = @shifts.last&.date_time&.to_date ? @shifts.last&.date_time&.to_date - @shifts.first&.date_time&.to_date + 1 : 0
+        @size = @shifts.last&.date_time&.to_date ? @shifts.last&.date_time&.to_date - Time.now.to_date + 1 : 0
         # 二次元配列の初期化
         @shift_is_free = Array.new(48) { Array.new(@size) { { is_free: false, shift: Shift.new } } }
 
@@ -81,7 +81,7 @@ class ReservationsController < ApplicationController
             end
         end
         if @reservation.save
-            # shiftテーブルのインスタンスに関連付け(動かない)
+            # shiftテーブルのインスタンスに関連付け
             shifts.each do |shift|
                 shift.update(reservation_id: @reservation.id)
             end
@@ -94,8 +94,8 @@ class ReservationsController < ApplicationController
 
     # 予約キャンセル
     def destroy
-        @reservation = Reservation.find(params[:id])
-        @reservation.destroy
+        @reservation = Reservation.find_by(id: params[:id])
+        @reservation&.destroy
         redirect_to :reservations, notice: "予約をキャンセルしました。"
     end
 end

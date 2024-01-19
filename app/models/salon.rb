@@ -1,6 +1,6 @@
 class Salon < ApplicationRecord
     # 一人のオーナーを持つ
-    has_one :owner
+    has_one :owner, dependent: :nullify
     # 多数のスタイリストを持つ
     has_many :stylists
     # 多数のお気に入り登録を持つ
@@ -15,27 +15,15 @@ class Salon < ApplicationRecord
     # 住所バリデーション 空はNG
     validates :adress, presence: true
     class << self
-        # 美容院検索用クラスメソッド(今は地域だけ)
-        def search(pref)
+        # 美容院検索用クラスメソッド
+        def search(pref, liked, user)
             rel = order("id")
+            if liked
+                rel = user.voted_salons
+            end
             if pref.present?
                 rel = rel.where(prefecture: pref)
             end
-
-            # 時間帯検索(未実装)
-            # salons = []
-            # if datetime >= Time.now
-            #     rel.each do |salon|
-            #         ok = false
-            #         salon.stylists do |stylist|
-            #             stylist.shifts do |shift|
-            #                 ok |= shift.reservation_id.nil? and shift.date_time == datetime
-            #             end
-            #         end
-            #         salons.push(salon) if ok
-            #     end
-            # end
-            # datetime.present? ? salons : rel
             rel
         end
     end
