@@ -51,6 +51,12 @@ class Owner::StylistsController < Owner::Base
 
   def destroy
       @stylist = Stylist.find_by(id: params[:id])
+      @stylist.shifts.each do |shift|
+          if !shift.reservation_id.nil? and shift.date_time >= Time.now
+              redirect_to [:owner, :stylists], notice: "予約がある状態では削除できません"
+              return
+          end
+      end
       @stylist&.destroy
       redirect_to :owner_stylists, notice: "スタイリストを削除しました。"
   end

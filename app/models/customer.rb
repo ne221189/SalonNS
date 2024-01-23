@@ -28,7 +28,7 @@ class Customer < ApplicationRecord
     # Eメールバリデーション
     validates :email, email: { allow_brank: true }
     # パスワードバリデーション 空白はNG、数字・ハイフン・丸括弧のみから構成、8文字以上20文字以内x
-    validates :password, presence: true,
+    validates :password, presence: { if: :current_password },
               format: { with: /\A[0-9A-Za-z!]*\z/, allow_blank: true,
                         message: "must consist of alphanumeric characters or '!'"},
               length: { minimum: 8, maximum: 20, allow_blank: true }
