@@ -52,9 +52,9 @@ class ReservationsController < ApplicationController
 
         # シフトが枠単位で空いているかどうか判定する配列を作成
         # 各要素は空いているかどうか(is_free)とそのシフト自体のインスタンス(shifts)のハッシュ
-        @shift_range = Time.now.to_date..@shifts.last&.date_time&.to_date
         # 列数(integer)
-        @size = @shifts.last&.date_time&.to_date ? @shifts.last&.date_time&.to_date - Time.now.to_date + 1 : 0
+        @size = 10
+        @shift_range = Time.now.to_date..Time.now.since((@size - 1).days)
         # 二次元配列の初期化
         @shift_is_free = Array.new(48) { Array.new(@size) { { is_free: false, shift: Shift.new } } }
 

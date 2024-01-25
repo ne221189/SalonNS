@@ -20,11 +20,7 @@
 </table>
 <h2>予約可能な時間</h2>
 <%= form_for @reservation, url: reservations_path do |form| %>
-  <% if @size != 0 %>
-    <%= render "reservation_form", form: form %>
-    <div><%= form.submit "予約", data: { confirm: "本当に予約しますか?"} %></div>
-  <% else %>
-    申し訳ありませんが、予約可能な時間はありません。
-  <% end %>
+  <%= render "reservation_form", form: form %>
+  <div><%= form.submit "予約", data: { confirm: "本当に予約しますか?"} %></div>
 <% end %>
 <div class="toolbar"><%= link_to "詳細に戻る", salon %></div>

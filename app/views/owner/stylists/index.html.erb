@@ -17,7 +17,7 @@
     <tbody>
     <% @stylists.each do |stylist| %>
       <tr>
-        <td><%= stylist.name %></td>
+        <td><%= link_to stylist.name, [:owner, stylist] %></td>
         <td>
           <%= link_to "編集", [:edit, :owner, stylist] %> |
           <%= link_to "削除", [:owner, stylist], method: :delete,

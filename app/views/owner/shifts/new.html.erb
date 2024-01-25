@@ -1,0 +1,38 @@
+<%= link_to "前画面に戻る", [:owner, @stylist] %>
+<h2>シフト追加</h2>
+<%= form_tag owner_stylist_shifts_path, method: :post, url: [:owner, :stylist, :shifts] do %>
+  <table class="res">
+    <thead>
+    <tr>
+      <th></th>
+      <!-- 日付のヘッダーをシフトの範囲分作成 -->
+      <% @shift_range.each do |date| %>
+        <th><%= date.strftime("%m/%d") %></th>
+      <% end %>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 時間の行を30分ごとに作成 -->
+    <% @shift_existence.length.times do |half_hour| %>
+      <tr>
+        <!-- 時間のセル -->
+        <% time = Time.new(2024, 1, 1, half_hour / 2, (half_hour % 2) * 30) %>
+        <th><%= time.strftime("%H:%M") %></th>
+        <!-- 日付ごとのセル -->
+        <% @shift_range.each_with_index do |date, day| %>
+          <td>
+            <% if @shift_existence[half_hour][day][:absent] %>
+              <% shift = @shift_existence[half_hour][day][:shift] %>
+              <%= check_box_tag "date_times[]", shift.date_time, false, { multiple: true } %>
+            <% else %>
+              x
+            <% end %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+  <div><%= submit_tag "追加" %></div>
+<% end %>
+<%= link_to "前画面に戻る", [:owner, @stylist] %>

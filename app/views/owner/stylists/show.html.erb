@@ -1,0 +1,14 @@
+<% page_title = "スタイリスト詳細" %>
+<h1><%= page_title %></h1>
+<table class="attr">
+  <tr>
+    <th>氏名</th>
+    <td><%= @stylist.name %></td>
+  </tr>
+  <tr>
+    <th>所属店舗</th>
+    <td><%= @stylist&.salon ? @stylist.salon.name : "無所属" %></td>
+  </tr>
+</table>
+<%= link_to "シフト追加", [:new, :owner, @stylist, :shift] %>
+<%= link_to "シフト削除", [:owner, @stylist, :shifts] %>
