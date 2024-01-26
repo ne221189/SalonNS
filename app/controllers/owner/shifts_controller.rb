@@ -9,7 +9,7 @@ class Owner::ShiftsController < Owner::Base
             shift_range.each_with_index do |date, day|
                 date_time = Time.new(date.year, date.month, date.day, time.hour, time.min, time.sec)
                 shift = shifts.find_by(date_time: date_time)
-                # 枠が埋まっているかどうか
+                # シフトのセット
                 if shift.nil?
                     shift_is_free[half_hour][day][:absent] = true
                     shift_is_free[half_hour][day][:shift] = Shift.new(date_time: date_time)
@@ -25,7 +25,7 @@ class Owner::ShiftsController < Owner::Base
         @shifts = Shift.where(stylist_id: params[:stylist_id])
         # 日数(integer)
         size = 10
-        @shift_range = Time.now.to_date..Time.now.since((size - 1).days)
+        @shift_range = Time.now.since(1.day).to_date..Time.now.since((size).days)
         # 二次元配列の初期化
         @shift_existence = Array.new(48) { Array.new(size) { { absent: false, shift: Shift.new } } }
 
@@ -37,7 +37,7 @@ class Owner::ShiftsController < Owner::Base
         @shifts = Shift.where(stylist_id: params[:stylist_id]).order(date_time: :asc)
         # 日数(integer)
         size = 10
-        @shift_range = Time.now.to_date..Time.now.since((size - 1).days)
+        @shift_range = Time.now.since(1.day).to_date..Time.now.since((size).days)
         # 二次元配列の初期化
         @shift_existence = Array.new(48) { Array.new(size) { { absent: false, date_time: Time.new } } }
 
@@ -64,8 +64,18 @@ class Owner::ShiftsController < Owner::Base
             redirect_to [:owner, stylist, :shifts], notice: "削除するシフトを選択してください。"
             return
         end
+        # 予約が入っているかのチェック
         shift_ids&.each do |shift_id|
-            Shift.find_by(id: shift_id)&.destroy
+            shift = Shift.find_by(id: shift_id)
+            unless shift&.reservation_id.nil?
+                redirect_to [:owner, stylist, :shifts], notice: "予約されているシフトが含まれています。"
+                return
+            end
+        end
+        # 削除
+        shift_ids&.each do |shift_id|
+            shift = Shift.find_by(id: shift_id)
+            shift&.destroy
         end
         redirect_to [:owner, stylist, :shifts], notice: "シフトを削除しました。"
     end

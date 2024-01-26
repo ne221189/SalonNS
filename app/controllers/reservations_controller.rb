@@ -54,7 +54,7 @@ class ReservationsController < ApplicationController
         # 各要素は空いているかどうか(is_free)とそのシフト自体のインスタンス(shifts)のハッシュ
         # 列数(integer)
         @size = 10
-        @shift_range = Time.now.to_date..Time.now.since((@size - 1).days)
+        @shift_range = Time.now.since(1.day).to_date..Time.now.since((@size).days)
         # 二次元配列の初期化
         @shift_is_free = Array.new(48) { Array.new(@size) { { is_free: false, shift: Shift.new } } }
 
