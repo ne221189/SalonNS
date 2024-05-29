@@ -40,7 +40,10 @@ Rails.application.routes.draw do
         root "top#index"
 
         # stylistsリソースの設定
-        resources :stylists, except: :show
+        resources :stylists do
+            # shiftsリソースの設定
+            resources :shifts, only: [:index, :new, :create, :destroy]
+        end
 
         # sessionリソースの設定(単数)
         resource :session, only: [:create, :destroy]
